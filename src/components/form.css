@@ -1,0 +1,50 @@
+.main-container {
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    to bottom,
+    #ff0066 0%,
+    #ff3399 100%
+  );
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 190px; */
+  /* margin-top: 3%; */
+  /* margin-left: 12%; */
+  /* margin-right: 12%; */
+  /* display: flex; */
+  /* align-items: center; */
+}
+.form-container {
+  background: #fff;
+  width: 60%;
+  padding: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.label-con {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.field-con {
+  /* float: left;
+  width: 75%;
+  margin-top: 6px; */
+  display: flex;
+  flex-direction: column;
+  /* padding: 1rem; */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.ant-input {
+  width: 75% !important;
+}
+.ant-select {
+  width: 75%;
+}
