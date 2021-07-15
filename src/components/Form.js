@@ -3,6 +3,7 @@ import { Input, Select, Divider } from "antd";
 import { Formik, Field, Form } from "formik";
 import TextArea from "antd/lib/input/TextArea";
 import "./form.css";
+import axios from "./config/axios";
 
 function JobApplication() {
   const { Option } = Select;
@@ -10,18 +11,44 @@ function JobApplication() {
     <div className="main-container">
       <Formik
         initialValues={{
-          fullName: "",
+          name: "",
           email: "",
-          contact: "",
-          job: "",
+          phone: "",
+          jobTitle: "",
           experience: "",
           skills: "",
         }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log(values);
+          resetForm({ values: "" });
+          axios
+            .post(
+              "/users/application-form",
+              values
+            )
+            .then((response) => {
+              console.log(
+                "resolve",
+                response.data
+              );
+              if (
+                response.data.hasOwnProperty(
+                  "errors"
+                )
+              ) {
+                alert(response.data.message);
+              } else {
+                alert(
+                  "your application has been submitted "
+                );
+              }
+            })
+            .catch((err) => {
+              console.log("rejected", err);
+            });
         }}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, setFieldValue }) => (
           <div className="form-container">
             <Form onSubmit={handleSubmit}>
               <div>
@@ -31,7 +58,7 @@ function JobApplication() {
                       Full name
                     </label>
                     <Field
-                      name="fullNmae"
+                      name="name"
                       as={Input}
                       placeholder="Enter your firstname"
                     />
@@ -58,7 +85,7 @@ function JobApplication() {
                       Contact Number
                     </label>
                     <Field
-                      name="contact"
+                      name="phone"
                       as={Input}
                       placeholder="+91 1234567890"
                     />
@@ -71,17 +98,70 @@ function JobApplication() {
                       Applying for job
                     </label>
 
-                    <Select placeholder="----Select----">
-                      <Option value="">
+                    {/* <Field name="customerId">
+                      {({
+                        field: { value },
+                        form: {
+                          setFieldValue,
+                          
+                        },
+                      }) => (
+                        <Select
+                          style={{
+                            width: "100% ",
+                          }}
+                          onChange={(
+                            value,
+                            option
+                          ) => {
+                            setFieldValue(
+                              "jobTitle",
+                              value
+                            );
+                            onChange &&
+                              onChange(
+                                value,
+                                option
+                              );
+                          }}
+                          placeholder="Select Customer"
+                          // setting undefined will show the placeholder
+                          value={
+                            value === "" ||
+                            value === null
+                              ? undefined
+                              : value
+                          }
+                          {...restProps}
+                        >
+                          <Option
+                            value="Front-End Developer"
+                            key="1"
+                          ></Option>
+                        </Select>
+                      )}
+                    </Field> */}
+
+                    <Select
+                      name="jobTitle"
+                      placeholder="----Select----"
+                      onChange={(value) =>
+                        setFieldValue(
+                          "jobTitle",
+                          value
+                        )
+                      }
+                    >
+                      <Option value="Front-End Developer">
                         Front-End Developer
                       </Option>
-                      <Option value="">
+                      <Option value="Node.js Developer">
                         Node.js Developer
                       </Option>
-                      <Option value="">
+                      <Option value="MEAN Stack Developer">
                         MEAN Stack Developer
                       </Option>
-                      <Option value="">
+                      <Option value="Full Stack Developer">
                         Full Stack Developer
                       </Option>
                     </Select>
